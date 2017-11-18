@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crystal Collector</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+  </head>
+<body>
+  
+  <div class="headingarea"> 
+    <h1> Crystals Collector </h1>
+  </div>
+  
+  <div class="instructions"> 
+
+    <p> You will be given a random number at the start of the game.
+    
+     There are four crystals below. By clicking on a crystal you will add a specific amount of points to your total score.
+    
+     You win the game by matching your total score to the random number, you lose the game if your total score goes above the random number.
+    
+     The value of each crystal is hidden from you until you click on it. 
+    
+    Each time when the game starts, the game will change the value of the crystal</p>
+  
+
+  </div>
+
+  <div id="randomnumber">
+    <p>Random Number:</p>
+  </div>
+  
+
+
+  <div class="numbertoguess"> 
+  </div>
+
+  <div class="winslossesarea">
+     <p>wins: 0</p>
+     <p>losses: 0</p>
+
+  </div>
+
+  <div id="buttonsarea">
+  </div>
+
+
+  <div id="yourscore">
+    <p>Your Score:</p>
+  </div>
+  
+  <div class="scorearea">
+  </div>
+
+
+<script>
+
+$(document).ready(function playGame(){
+
+    function generateRand(min, max){
+      var x = Math.floor((Math.random() * max) + min);
+      return x;
+    }
+
+    var random;
+    var total;
+    total=0;
+    random = generateRand(19, 150);
+    //console.log(random);
+    $(".numbertoguess").text(random);
+
+    var pinkNum = generateRand(1,12);
+    var yellowNum = generateRand(1,12);
+    var blueNum = generateRand(1,12);
+    var greenNum = generateRand(1,12);
+    var wins = 0;
+    var losses = 0;
+    
+
+    var valuesArray = [pinkNum, yellowNum, blueNum, greenNum];
+    var imagesArray = ["pinkgem.jpg", "yellowgem.jpg", "bluegem.jpg", "greengem.jpg"];
+    for (var i=0; i<imagesArray.length; i++)
+     {
+      var image = $("<img>");
+      image.addClass("button");
+
+      image.attr("src", "assets/images/" + imagesArray[i]);
+      image.attr("width","120px");
+      image.attr("height","auto");
+
+      image.attr("value", valuesArray[i]);
+      $("#buttonsarea").append(image);
+     }
+
+
+        
+    $(".button").on("click", function() {
+      var valueOfButton = ($(this).attr("value"));
+      valueOfButton = parseInt(valueOfButton);
+
+      total=total + valueOfButton;
+
+      $(".scorearea").html(total);
+
+      if (total === random) {
+        alert("You win!");
+        wins++;
+        $("#buttonsarea").empty();
+        $(".scorearea").empty();
+        playGame();   
+        }
+      
+      
+
+      else if (total > random) {
+        alert("You lose!!");
+        losses++;
+        $("#buttonsarea").empty();
+        $(".scorearea").empty();
+        playGame();
+        }
+
+        console.log(valueOfButton);
+
+
+      var results = 
+         
+          "<p>wins:" + wins + "</p>"+
+          "<p>losses:" + losses + "</p>";
+
+          document.querySelector(".winslossesarea").innerHTML = results;
+    
+    });
+
+});
+
+</script>
+
+</body>
+</html>
